@@ -1,0 +1,41 @@
+settings:
+  request_timeout_seconds: 20
+  fetch_retries: 3
+  missing_threshold: 3
+  tombstone_days: 30
+
+properties:
+  - id: anns-cottage
+    name: Ann's Cottage
+    source: airbnb
+    calendar_url: "https://www.airbnb.com.au/calendar/ical/1001801796089554574.ics?t=84b26e34e76f49039d068a5efb414cc3"
+
+  - id: warwick
+    name: Warwick
+    source: airbnb
+    calendar_url: "https://www.airbnb.com.au/calendar/ical/48943744.ics?t=7f1331e8cd99435f8ee786a983cc1063"
+  
+  - id: farm-house
+    name: Farm House
+    source: airbnb
+    calendar_url: "https://www.airbnb.com.au/calendar/ical/1115446087716372232.ics?t=617a5fd14d664b2cad64e2657aa739e5"
+
+  - id: hill-st
+    name: Hill St
+    source: airbnb
+    calendar_url: "https://www.airbnb.com.au/calendar/ical/38162826.ics?t=160c4f0c75234c99ae6c1303a111da0a"
+
+  - id: penthouse
+    name: Penthouse
+    source: airbnb
+    calendar_url: "https://www.airbnb.com.au/calendar/ical/1313275298154839712.ics?t=8661d1be2eeb42998f5165ef54664e02"    
+
+  - id: melville
+    name: Melville
+    source: airbnb
+    calendar_url: "https://www.airbnb.com.au/calendar/ical/48943744.ics?t=7f1331e8cd99435f8ee786a983cc1063"  
+
+  - id: whiskey
+    name: Whiskey
+    source: airbnb
+    calendar_url: "https://www.airbnb.com.au/calendar/ical/1277761498431165114.ics?t=1dccc574025d4ea6a9c5d56e9b967553"  
