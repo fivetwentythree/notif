@@ -22,6 +22,7 @@ def make_booking(
     summary: str = "Reservation",
     status: str = "CONFIRMED",
     sequence: int | None = 1,
+    last_modified: str = "2026-03-31T10:00:00+00:00",
 ) -> NormalizedBooking:
     return NormalizedBooking(
         property_id=PROPERTY.id,
@@ -35,7 +36,7 @@ def make_booking(
         description=None,
         status=status,
         sequence=sequence,
-        last_modified="2026-03-31T10:00:00+00:00",
+        last_modified=last_modified,
         source=PROPERTY.source,
     )
 
@@ -76,6 +77,35 @@ def test_detects_update_for_existing_booking() -> None:
     )
 
     assert [change.kind for change in changes] == [ChangeKind.UPDATED]
+
+
+def test_ignores_metadata_only_changes() -> None:
+    state = MonitorState()
+    apply_property_snapshot(
+        state=state,
+        property_config=PROPERTY,
+        current_events=[make_booking(summary="Reserved", sequence=1)],
+        observed_at="2026-03-31T11:00:00+00:00",
+        missing_threshold=3,
+        tombstone_days=30,
+    )
+
+    changes = apply_property_snapshot(
+        state=state,
+        property_config=PROPERTY,
+        current_events=[
+            make_booking(
+                summary="Reserved",
+                sequence=2,
+                last_modified="2026-03-31T11:05:00+00:00",
+            )
+        ],
+        observed_at="2026-03-31T11:05:00+00:00",
+        missing_threshold=3,
+        tombstone_days=30,
+    )
+
+    assert changes == []
 
 
 def test_detects_explicit_cancellation() -> None:

@@ -59,10 +59,7 @@ class NormalizedBooking:
             "end": self.end,
             "all_day": self.all_day,
             "summary": self.summary,
-            "description": self.description,
             "status": self.status,
-            "sequence": self.sequence,
-            "last_modified": self.last_modified,
         }
         encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
         return sha256(encoded).hexdigest()

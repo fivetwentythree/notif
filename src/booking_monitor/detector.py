@@ -47,7 +47,7 @@ def apply_property_snapshot(
             continue
 
         previous_booking = record.booking
-        previous_fingerprint = record.content_fingerprint
+        previous_fingerprint = previous_booking.fingerprint
         was_active = record.active
 
         record.booking = booking
