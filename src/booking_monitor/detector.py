@@ -95,6 +95,8 @@ def apply_property_snapshot(
                 )
             )
 
+    observed_dt = parse_datetime(observed_at)
+
     for key in property_keys:
         if key in current_by_key:
             continue
@@ -102,6 +104,21 @@ def apply_property_snapshot(
         record = state.bookings[key]
         if not record.active:
             continue
+
+        # If the booking's end date has already passed, it naturally dropped
+        # off the iCal feed — silently mark it inactive instead of reporting
+        # it as a cancellation.
+        booking_end = parse_datetime(record.booking.end)
+        if observed_dt and booking_end:
+            # Normalise both sides to naive so date-only and tz-aware
+            # strings can be compared safely.
+            end_naive = booking_end.replace(tzinfo=None) if booking_end.tzinfo else booking_end
+            obs_naive = observed_dt.replace(tzinfo=None) if observed_dt.tzinfo else observed_dt
+            if end_naive <= obs_naive:
+                record.active = False
+                record.cancellation_reason = "expired"
+                record.inactive_since = observed_at
+                continue
 
         record.missing_polls += 1
         if record.missing_polls >= missing_threshold:
